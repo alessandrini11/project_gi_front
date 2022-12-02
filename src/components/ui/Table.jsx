@@ -1,10 +1,12 @@
 import React from 'react'
-
+import NewPostitionForm from './NewPostitionForm'
 const Table = ({fields, list}) => {
   return (
     <table className="min-w-max w-full table-auto">
       <thead>
         <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+        <th className="py-3 px-6 text-center"></th>
+        <th className="py-3 px-4 text-center">position</th>
           {fields.map((field, key) => (
             <th key={key} className="py-3 px-6 text-center">{field}</th>
           ))}
@@ -15,6 +17,14 @@ const Table = ({fields, list}) => {
       <tbody className="text-gray-600 text-sm font-light">
           {list.map( (item, key) =>(
             <tr key={key} className="border-b border-gray-200 bg-gray-50 hover:bg-gray-100 text-sm">
+              <td className="py-3 px-1 text-center">
+                  <NewPostitionForm candId={key} />
+              </td>
+              <td className="py-3 px-2 text-center">
+                <div className="flex items-center justify-center">
+                  <span className="">{key + 1}</span>
+                </div>
+              </td>
               <td className="py-3 px-6 text-center">
                 <div className="flex items-center justify-center">
                   <span className="">{item.nom}</span>
