@@ -22,7 +22,7 @@ const fakeCandididate = {
     "note1": 8,
     "note2": 7,
     "note3": 8,
-    "moyenne": 7.5
+    "average": 7.5
 }
 
 const fakeCandidateArray = []
