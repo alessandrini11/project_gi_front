@@ -9,16 +9,17 @@ import axios from 'axios'
 
 const Home = () => {
   const [candidates, setCandidates] = useState([])
+  const [updatedCandidate, setUpdatedCandidate] = useState("")
   const [paginationInfo, setPaginationInfo] = useState({
     currentPage: 0,
     totalPages: 0
   })
   const [query, setQuery] = useState("")
   let [searchParams, setSearchParams] = useSearchParams();
-  let [page, setPage] = React.useState(
-    searchParams.get("page")
-  );
+  let page = parseInt(searchParams.get("page")) || 1
+  
   const [isSearch, setIsSearch] = useState(false)
+
   const  getAllCandidates = (page) => {
     axios
       .get(`/candidates?page=${page}`)
@@ -33,8 +34,15 @@ const Home = () => {
       })
       .catch(error => console.log(error))
   }
+
   useEffect(() => {
+    if(localStorage.getItem('updatedCandidate')){
+      setUpdatedCandidate(localStorage.getItem('updatedCandidate'))
+    }
     getAllCandidates(page)
+    return () => {
+      localStorage.removeItem('updatedCandidate')
+    }
   },[page])
   
   const handleDeleteData = () => {
@@ -44,11 +52,13 @@ const Home = () => {
         .delete("/candidates/deleteall")
         .then(response => {
           if(response.status === 200){
-            prompt("All data have been deleted")
+            alert("All data have been deleted")
+            window.location.href = "/candidates"
           }
         })
         .catch(error => console.log(error))
     }
+
   }
   const handleSearch = (e) => {
     e.preventDefault()
@@ -109,6 +119,14 @@ const Home = () => {
         </section>
         <section className="my-5">
           <div className="w-10/12 mx-auto">
+            {
+              updatedCandidate !== "" ? 
+              <div className="my-2 bg-green-300 text-green-800">
+                <p className="py-3 text-center">{updatedCandidate}</p>
+              </div> :
+              null
+            }
+            
             <div className="">
                 {isLoadingData}
             </div>

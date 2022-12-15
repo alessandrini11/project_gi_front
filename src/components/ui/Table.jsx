@@ -1,28 +1,18 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import NewPostitionForm from './NewPostitionForm'
-const Table = ({fields, list, currentPage, isSearch}) => {
-  const [paginationElements, setPaginationElements] = useState([])
-  const [newPosition, setNewPosition] = useState(null)
-  
-  useEffect(() => {
-    const elements = []
-    for (let index = 0; index < 40; index++) {
-      elements.push(
-        <li key={index}>
-          <a href={`?page=${index + 1}`} 
-             className={` ${index + 1 === currentPage ? 'bg-blue-500': 'border'} py-1 px-2 rounded`}>
-            {index + 1}
-          </a>
-        </li>
-      )
-    }
-    setPaginationElements(elements)
-  }, [])
+const Table = ({fields, list, currentPage, isSearch, paginationInfo}) => {
 
-  const handleUpdatePosition = (e) => {
-    e.preventDefault()
-
+  const elements = []
+  for (let index = 0; index < paginationInfo.totalPages; index++) {
+    elements.push(
+      <li key={index}>
+        <a href={`?page=${index + 1}`} 
+            className={` ${index + 1 === currentPage ? 'bg-blue-500': 'border'} py-1 px-2 rounded`}>
+          {index + 1}
+        </a>
+      </li>
+    )
   }
   return (
     <div className="">
@@ -143,7 +133,7 @@ const Table = ({fields, list, currentPage, isSearch}) => {
       </div>
       <div className={`px-5 overflow-x-scroll ${isSearch ? 'hidden': 'block'}`} >
         <ul className="flex space-x-1 py-3">
-          {paginationElements.map(item => item)}
+          {elements.map(item => item)}
         </ul>
       </div>
     </div>
